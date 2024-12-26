@@ -1,0 +1,76 @@
+services:
+  db:
+    image: timescale/timescaledb:2.12.1-pg15
+    container_name: timescale_db
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_DB: helpdesk
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - timescale_data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 10s
+      timeout: 5s
+      retries: 40
+
+  dind:
+    image: docker:20.10.24-dind
+    container_name: dind
+    privileged: true
+    environment:
+      DOCKER_TLS_CERTDIR: ""
+    volumes:
+      - dind-data:/var/lib/docker
+    networks:
+      - app-network
+    healthcheck:
+      test: [ "CMD-SHELL", "docker info > /dev/null 2>&1 || exit 1" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  maven:
+    image: maven:3.9.5-eclipse-temurin-17
+    container_name: maven
+    volumes:
+      - .:/app
+    working_dir: /app
+    environment:
+      DOCKER_HOST: tcp://dind:2375
+    networks:
+        - app-network
+    depends_on:
+      db:
+        condition: service_healthy
+      dind:
+        condition: service_healthy
+    command: mvn clean package
+
+  app:
+    image: eclipse-temurin:17-jdk
+    container_name: app
+    volumes:
+      - ./target:/app/target
+    working_dir: /app
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/helpdesk
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+    depends_on:
+      db:
+        condition: service_healthy
+      maven:
+        condition: service_completed_successfully
+    entrypoint: ["java", "-jar", "/app/target/helpdesk-0.0.1-SNAPSHOT.jar"]
+
+volumes:
+  timescale_data:
+  dind-data:
+
+networks:
+  app-network:

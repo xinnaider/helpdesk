@@ -35,6 +35,6 @@ jobs:
             exit 1
           fi
 
-      - name: Cleanup on Error
-        if: failure()
-        run: make down
+      - name: Teardown
+        if: always()
+        run: docker-compose down

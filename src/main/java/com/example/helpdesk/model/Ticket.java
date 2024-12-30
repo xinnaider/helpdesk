@@ -39,7 +39,6 @@ public class Ticket {
         LOW, MEDIUM, HIGH
     }
 
-    // Getters e Setters
     public Long getId() {
         return id;
     }

@@ -9,3 +9,5 @@ CREATE TABLE ticket (
 );
 
 SELECT create_hypertable('ticket', 'created_at', if_not_exists => TRUE);
+
+

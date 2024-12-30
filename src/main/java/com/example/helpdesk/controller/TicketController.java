@@ -16,6 +16,11 @@ public class TicketController {
     @Autowired
     private TicketService service;
 
+    @GetMapping("/health")
+    public String health() {
+        return "ok";
+    }
+
     @GetMapping
     public List<Ticket> getAllTickets() {
         return service.findAll();

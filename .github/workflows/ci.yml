@@ -25,8 +25,15 @@ jobs:
 
       - name: Verify App Health
         run: |
-          echo "Verifying app health..."
-          curl -f http://localhost:8080/health || exit 1
+          echo "Waiting for the app to be ready..."
+          for i in {1..30}; do
+            curl -f http://localhost:8080/health && break || echo "App not ready, retrying in 5 seconds..."
+            sleep 5
+          done
+          if ! curl -f http://localhost:8080/health; then
+            echo "App failed to start within the expected time."
+            exit 1
+          fi
 
       - name: Run Tests
         run: |

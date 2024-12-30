@@ -37,4 +37,4 @@ jobs:
 
       - name: Cleanup on Error
         if: failure()
-        run: docker-compose down
+        run: make down

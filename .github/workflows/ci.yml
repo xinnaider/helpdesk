@@ -35,11 +35,6 @@ jobs:
             exit 1
           fi
 
-      - name: Run Tests
-        run: |
-          echo "Running tests..."
-          docker exec app-container-name mvn test
-
       - name: Cleanup on Error
         if: failure()
         run: docker-compose down

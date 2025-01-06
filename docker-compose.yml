@@ -1,5 +1,4 @@
 services:
-  # Database Service
   db:
     image: timescale/timescaledb:2.12.1-pg15
     container_name: timescale_db
@@ -36,7 +35,6 @@ services:
       timeout: 5s
       retries: 5
 
-  # Maven Build Service
   maven:
     image: maven:3.9.5-eclipse-temurin-17
     container_name: maven
@@ -55,9 +53,8 @@ services:
     command: mvn clean package
     deploy:
       restart_policy:
-        condition: none  # Maven não deve reiniciar após concluir.
+        condition: none
 
-  # Eureka Server
   eureka-server:
     image: eclipse-temurin:17-jdk
     container_name: eureka_server
@@ -82,7 +79,6 @@ services:
       timeout: 5s
       retries: 5
 
-  # User Service
   user-service:
     image: eclipse-temurin:17-jdk
     container_name: user_service
@@ -107,7 +103,6 @@ services:
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka/
       SPRING_APPLICATION_NAME: user-service
 
-  # Ticket Service
   ticket-service:
     image: eclipse-temurin:17-jdk
     container_name: ticket_service

@@ -1,4 +1,4 @@
-CREATE TABLE ticket (
+CREATE TABLE tickets (
     id SERIAL,
     title TEXT NOT NULL,
     description TEXT,
@@ -8,6 +8,6 @@ CREATE TABLE ticket (
     PRIMARY KEY (id, created_at)
 );
 
-SELECT create_hypertable('ticket', 'created_at', if_not_exists => TRUE);
+SELECT create_hypertable('tickets', 'created_at', if_not_exists => TRUE);
 
 

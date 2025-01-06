@@ -27,32 +27,18 @@ jobs:
         run: |
           echo "Waiting for TICKET-SERVICE to be ready..."
           for i in {1..30}; do
-            echo "TICKET-SERVICE response:"
-            curl http://localhost:8082/api/tickets/health
-            if curl -f http://localhost:8082/api/tickets/health; then
-              echo "TICKET-SERVICE is ready."
-              break
-            else
-              echo "TICKET-SERVICE not ready, retrying in 5 seconds..."
-              sleep 5
-            fi
+            curl -f http://localhost:8082/api/tickets/health && break || echo "TICKET-SERVICE not ready, retrying in 5 seconds..."
+            sleep 5
           done
           if ! curl -f http://localhost:8082/api/tickets/health; then
             echo "TICKET-SERVICE failed to start within the expected time."
             exit 1
           fi
-
+          
           echo "Waiting for USER-SERVICE to be ready..."
           for i in {1..30}; do
-            echo "USER-SERVICE response:"
-            curl http://localhost:8081/api/users/health
-            if curl -f http://localhost:8081/api/users/health; then
-              echo "USER-SERVICE is ready."
-              break
-            else
-              echo "USER-SERVICE not ready, retrying in 5 seconds..."
-              sleep 5
-            fi
+            curl -f http://localhost:8081/api/users/health && break || echo "USER-SERVICE not ready, retrying in 5 seconds..."
+            sleep 5
           done
           if ! curl -f http://localhost:8081/api/users/health; then
             echo "USER-SERVICE failed to start within the expected time."

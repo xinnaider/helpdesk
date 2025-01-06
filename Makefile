@@ -1,6 +1,6 @@
 rebuild:
-	docker compose down -v
-	docker compose up --build -d
+	docker compose down
+	docker compose up -d
 up:
 	docker compose up -d
 down:

@@ -25,13 +25,23 @@ jobs:
 
       - name: Verify App Health
         run: |
-          echo "Waiting for the app to be ready..."
+          echo "Waiting for TICKET-SERVICE to be ready..."
           for i in {1..30}; do
-            curl -f http://localhost:8080/api/tickets/health && break || echo "App not ready, retrying in 5 seconds..."
+            curl -f http://localhost:8082/api/tickets/health && break || echo "TICKET-SERVICE not ready, retrying in 5 seconds..."
             sleep 5
           done
-          if ! curl -f http://localhost:8080/api/tickets/health; then
-            echo "App failed to start within the expected time."
+          if ! curl -f http://localhost:8082/api/tickets/health; then
+            echo "TICKET-SERVICE failed to start within the expected time."
+            exit 1
+          fi
+          
+          echo "Waiting for USER-SERVICE to be ready..."
+          for i in {1..30}; do
+            curl -f http://localhost:8081/api/users/health && break || echo "USER-SERVICE not ready, retrying in 5 seconds..."
+            sleep 5
+          done
+          if ! curl -f http://localhost:8081/api/users/health; then
+            echo "USER-SERVICE failed to start within the expected time."
             exit 1
           fi
 

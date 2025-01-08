@@ -3,9 +3,9 @@
     import com.example.ticketservice.integration.UserServiceIntegration;
     import com.example.ticketservice.model.Ticket;
     import com.example.ticketservice.repository.TicketRepository;
+    import jakarta.ws.rs.NotFoundException;
     import org.springframework.beans.factory.annotation.Autowired;
     import org.springframework.stereotype.Service;
-    import org.springframework.web.client.RestTemplate;
 
     import java.util.List;
     import java.util.Optional;
@@ -29,7 +29,7 @@
             if (userServiceIntegration.existingId(ticket.getUserId())) {
                 return repository.save(ticket);
             } else {
-                throw new IllegalArgumentException("User with id " + ticket.getUserId() + " does not exist");
+                throw new NotFoundException("User not found");
             }
         }
 

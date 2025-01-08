@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
@@ -29,6 +30,7 @@ import static org.assertj.core.api.Assertions.assertThat;
         }
 )
 @Testcontainers
+@ActiveProfiles("test")
 @ContextConfiguration(classes = TicketServiceApplication.class)
 public class TicketServiceApplicationTests {
     @Autowired

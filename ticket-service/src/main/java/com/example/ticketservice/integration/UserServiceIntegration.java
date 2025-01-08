@@ -15,9 +15,13 @@ public class UserServiceIntegration {
     private RestTemplate restTemplate;
 
     public boolean existingId(Long userId) {
-        ResponseEntity<Void> response = restTemplate.getForEntity(String.format("%susers/%d", USER_SERVICE_URL, userId), Void.class);
+        try {
+            ResponseEntity<Void> response = restTemplate.getForEntity(String.format("%susers/%d", USER_SERVICE_URL, userId), Void.class);
 
-        return response.getStatusCode().is2xxSuccessful();
+            return response.getStatusCode().is2xxSuccessful();
+        } catch (Exception e) {
+            return false;
+        }
     }
 }
 

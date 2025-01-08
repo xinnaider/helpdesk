@@ -1,19 +1,21 @@
     package com.example.ticketservice.service;
 
+    import com.example.ticketservice.integration.UserServiceIntegration;
     import com.example.ticketservice.model.Ticket;
     import com.example.ticketservice.repository.TicketRepository;
+    import org.springframework.beans.factory.annotation.Autowired;
     import org.springframework.stereotype.Service;
+    import org.springframework.web.client.RestTemplate;
+
     import java.util.List;
     import java.util.Optional;
 
     @Service
     public class TicketService {
-
-        private final TicketRepository repository;
-
-        public TicketService(TicketRepository repository) {
-            this.repository = repository;
-        }
+        @Autowired
+        private TicketRepository repository;
+        @Autowired
+        private UserServiceIntegration userServiceIntegration;
 
         public List<Ticket> findAll() {
             return repository.findAll();
@@ -24,7 +26,11 @@
         }
 
         public Ticket save(Ticket ticket) {
-            return repository.save(ticket);
+            if (userServiceIntegration.existingId(ticket.getUserId())) {
+                return repository.save(ticket);
+            } else {
+                throw new IllegalArgumentException("User with id " + ticket.getUserId() + " does not exist");
+            }
         }
 
         public void deleteById(Long id) {

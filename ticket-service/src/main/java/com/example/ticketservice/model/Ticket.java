@@ -7,7 +7,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "tickets")
+@Table(name = "ticket_service_tickets")
 public class Ticket {
 
     @Id
@@ -27,6 +27,9 @@ public class Ticket {
     @NotNull(message = "Priority cannot be null")
     private Priority priority;
 
+    @NotNull(message = "User ID cannot be null")
+    private Long userId;
+
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
@@ -43,8 +46,12 @@ public class Ticket {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public String getTitle() {

@@ -3,6 +3,7 @@ package com.example.ticketservice.controller;
 import com.example.ticketservice.model.Ticket;
 import com.example.ticketservice.service.TicketService;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,12 +12,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/tickets")
 public class TicketController {
-
-    private final TicketService service;
-
-    public TicketController(TicketService service) {
-        this.service = service;
-    }
+    @Autowired
+    private TicketService service;
 
     @GetMapping("/health")
     public String health() {

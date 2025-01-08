@@ -18,7 +18,6 @@ services:
     networks:
       - app-network
 
-  # Docker in Docker (for Maven builds or other Docker-related tasks)
   dind:
     image: docker:20.10.24-dind
     container_name: dind

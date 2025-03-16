@@ -10,7 +10,7 @@ Este projeto é um sistema de Helpdesk simples desenvolvido com Spring Boot, com
 ## Tecnologias e Ferramentas
 
 - Spring Boot
-- Swagger: Documentação e teste das APIs.
+- **Swagger (Falta implementar)**: Documentação e teste das APIs.
 - Docker: Containerização completa dos serviços.
 - Flyway: Gerenciamento de migrations do banco de dados.
 - Testcontainers: Testes integrados com containers.
@@ -40,11 +40,3 @@ Este projeto é um sistema de Helpdesk simples desenvolvido com Spring Boot, com
    make up
    ```
    Esse comando iniciará todos os containers necessários para a aplicação.
-
-## Documentação da API
-
-Após subir os serviços, a documentação interativa da API pode ser acessada via Swagger em:
-```
-http://localhost:[porta]/swagger-ui.html
-```
-(Substitua `[porta]` pela porta configurada para o seu serviço)

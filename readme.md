@@ -16,6 +16,7 @@ Este projeto é um sistema de Helpdesk simples desenvolvido com Spring Boot, com
 - Testcontainers: Testes integrados com containers.
 - Eureka: Service discovery para a integração dos microserviços.
 - Makefile: Facilita a execução dos serviços com Docker.
+- GitHub Workflows: CI para testes.
 
 ## Como Executar o Projeto
 
